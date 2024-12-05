@@ -1,6 +1,6 @@
 import { SupportedFileType } from '../types';
 
-export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+export const MAX_FILE_SIZE = 15 * 1024 * 1024; // 5MB
 
 export const getFileExtension = (filename: string): string => {
   return filename.split('.').pop()?.toLowerCase() || '';
@@ -8,7 +8,9 @@ export const getFileExtension = (filename: string): string => {
 
 export const isValidFileType = (filename: string): boolean => {
   const extension = getFileExtension(filename);
-  const validTypes: SupportedFileType[] = ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'png', 'js'];
+  const validTypes: SupportedFileType[] = [
+    'pdf', 'doc', 'docx', 'xls', 'xlsx', 'txt', 'png', 'jpg', 'jpeg', 'gif', 'ppt', 'pptx', 'js', 'py', 'bmp', 'gif', 'java', 'json', 'kt', 'ts', 'webp'
+  ];
   return validTypes.includes(extension as SupportedFileType);
 };
 

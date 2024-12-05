@@ -5,6 +5,7 @@ import { ImageViewer } from './viewers/ImageViewer';
 import { TextViewer } from './viewers/TextViewer';
 import { CodeViewer } from './viewers/CodeViewer';
 import { SpreadsheetViewer } from './viewers/SpreadsheetViewer';
+import { DOCXViewer } from './viewers/DOCXViewer';
 
 interface DocumentViewerProps {
   document: Document;
@@ -12,39 +13,45 @@ interface DocumentViewerProps {
 
 export const DocumentViewer: React.FC<DocumentViewerProps> = ({ document }) => {
   const renderViewer = () => {
-    switch (document.type) {
+    const { type, url, name } = document;
+
+    switch (type) {
       case 'pdf':
-        return <PDFViewer url={document.url} />;
+        return <PDFViewer url={url} />;
+      case 'jpg':
+      case 'jpeg':
+      case 'gif':
       case 'png':
-        return <ImageViewer url={document.url} name={document.name} />;
+      case 'bmp':
+      case 'webp':
+        return <ImageViewer url={url} name={name} />;
       case 'txt':
-        return <TextViewer url={document.url} />;
+        return <TextViewer url={url} />;
+      case 'py':
       case 'js':
-        return <CodeViewer url={document.url} />;
+      case 'java':
+      case 'kt':
+      case 'ts':
+      case 'json':
+        return <CodeViewer url={url} />;
       case 'xls':
       case 'xlsx':
-        return <SpreadsheetViewer url={document.url} />;
+        return <SpreadsheetViewer url={url} />;
       case 'doc':
       case 'docx':
-        return (
-          <div className="text-center p-4">
-            <p className="text-gray-600">
-              Preview not available for {document.type.toUpperCase()} files.
-              Please download to view.
-            </p>
-          </div>
-        );
+        return <DOCXViewer url={url} />;
       default:
         return (
           <div className="text-center p-4">
-            <p className="text-red-500">Unsupported file type</p>
+            <p className="text-red-500">Unsupported file type: {type}</p>
+            <p>Please try uploading a supported format.</p>
           </div>
         );
     }
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4">
+    <div className="w-full max-w-4xl mx-auto p-4 border rounded-lg bg-white shadow">
       <h2 className="text-xl font-semibold mb-4">{document.name}</h2>
       {renderViewer()}
     </div>

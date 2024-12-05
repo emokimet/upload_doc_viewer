@@ -81,13 +81,12 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileSelect }) => {
           </button>
         </div>
       )}
-      
+
       <div
-        className={`relative border-2 border-dashed rounded-lg p-8 text-center ${
-          dragActive
+        className={`relative border-2 border-dashed rounded-lg p-8 text-center ${dragActive
             ? 'border-blue-500 bg-blue-50'
             : 'border-gray-300 hover:border-gray-400'
-        }`}
+          }`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
@@ -95,7 +94,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileSelect }) => {
         <input
           type="file"
           onChange={handleChange}
-          accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.png,.js"
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.txt,.png,.jpg,.jpeg,.gif,.ppt,.pptx,.webp,.java,.kt,.py"
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
         <Upload className="mx-auto h-12 w-12 text-gray-400" />
@@ -103,7 +102,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({ onFileSelect }) => {
           Drag and drop a file here, or click to select
         </p>
         <p className="mt-1 text-xs text-gray-500">
-          Supported formats: PDF, DOC, DOCX, XLS, XLSX, TXT, PNG, JS
+          Supported formats: PDF, DOC, DOCX, XLS, XLSX, TXT, PNG, JPG, JPEG, GIF, PPT, PPTX, WEBP, JAVA, KT
         </p>
         <p className="mt-1 text-xs text-gray-500">
           Maximum file size: {formatFileSize(MAX_FILE_SIZE)}
