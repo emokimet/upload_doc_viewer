@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Document } from '../types';
 import { PDFViewer } from './viewers/PDFViewer';
 import { ImageViewer } from './viewers/ImageViewer';
 import { TextViewer } from './viewers/TextViewer';
 import { CodeViewer } from './viewers/CodeViewer';
 import { SpreadsheetViewer } from './viewers/SpreadsheetViewer';
-import { DOCXViewer } from './viewers/DOCXViewer';
+import { DocxViewer } from './viewers/DOCXViewer';
 
 interface DocumentViewerProps {
   document: Document;
 }
 
 export const DocumentViewer: React.FC<DocumentViewerProps> = ({ document }) => {
+
   const renderViewer = () => {
-    const { type, url, name } = document;
+    const { type, url, name, file } = document;
 
     switch (type) {
       case 'pdf':
@@ -37,9 +38,11 @@ export const DocumentViewer: React.FC<DocumentViewerProps> = ({ document }) => {
       case 'xls':
       case 'xlsx':
         return <SpreadsheetViewer url={url} />;
-      case 'doc':
+      case 'ppt':
+      case 'pptx':
       case 'docx':
-        return <DOCXViewer url={url} />;
+      case 'doc':
+        return <DocxViewer file={file}/>
       default:
         return (
           <div className="text-center p-4">
@@ -52,7 +55,9 @@ export const DocumentViewer: React.FC<DocumentViewerProps> = ({ document }) => {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4 border rounded-lg bg-white shadow">
-      <h2 className="text-xl font-semibold mb-4">{document.name}</h2>
+      <div className="mb-4">
+        <h2 className="text-xl font-semibold">{document.name}</h2>
+      </div>
       {renderViewer()}
     </div>
   );

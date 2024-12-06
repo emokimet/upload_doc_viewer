@@ -27,6 +27,7 @@ export interface Document {
   name: string;
   type: SupportedFileType;
   url: string;
+  file: File;
 }
 
 // File upload error remains as is

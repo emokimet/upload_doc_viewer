@@ -17,7 +17,8 @@ function App() {
       id: Date.now().toString(),
       name: file.name,
       type: fileExtension as Document['type'],
-      url
+      url,
+      file,
     };
 
     setSelectedDocument(newDocument);

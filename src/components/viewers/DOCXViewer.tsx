@@ -1,19 +1,46 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import mammoth from 'mammoth';
 
-interface DOCXViewerProps {
-  url: string;
+interface Props {
+  file: File | null; // file prop, can be null if no file is provided
 }
 
-export const DOCXViewer: React.FC<DOCXViewerProps> = ({ url }) => {
+export const DocxViewer: React.FC<Props> = ({ file }) => {
+  const [documentHtml, setDocumentHtml] = useState<string>('');
+
+  useEffect(() => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: ProgressEvent<FileReader>) => {
+        if (e.target?.result) {
+          const arrayBuffer = e.target.result as ArrayBuffer;
+          mammoth.convertToHtml({ arrayBuffer })
+            .then((result) => {
+              setDocumentHtml(result.value);
+            })
+            .catch((error) => {
+              console.error('Error reading DOCX file:', error);
+            });
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  }, [file]);
+
   return (
-    <div className="w-full">
-      <h2 className="text-xl font-semibold mb-4">Document Viewer</h2>
-      <iframe
-        src={`https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(url)}`}
-        width="100%"
-        height="600px"
-        frameBorder="0"
-        title="DOCX Viewer"
+    <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+      <div
+        style={{
+          marginTop: '20px',
+          padding: '20px',
+          border: '1px solid #ccc',
+          maxHeight: '800px',
+          width: "600px",
+          overflowY: 'auto',
+          scrollbarWidth: 'thin',
+          textAlign: 'left',
+        }}
+        dangerouslySetInnerHTML={{ __html: documentHtml }}
       />
     </div>
   );
